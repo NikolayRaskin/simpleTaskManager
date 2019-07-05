@@ -1,0 +1,25 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+header{
+    height: 100px;
+    background-color: #03588C;
+}
+.col-sm h3{
+    margin-top: 5%;
+    color: #D9D9D9;
+}
+.col-sm button{
+    margin-top: 6%;
+}
+.tasks{
+    display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+.card{
+    margin: 10px;
+}
+button{
+    width: 150px;
+}

@@ -1,0 +1,37 @@
+{% load static %}
+<html>
+<head>
+    <title>Task manager</title>
+    <meta charset="utf-8">
+    <link href="{% static 'mainPage/css/main.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <h3>Task Manager</h3>
+                </div>
+                <div class="col-sm">
+                    <h3 id='username'>User name: {{user.username}}<br><span>{% for post in usersQuery %}{% if post.user == user %}{{post.user_role}}{% endif %}{% endfor %}</span></h3>
+                </div>
+                <div class="col-sm">
+                    <a href="/addTask/" id='addTask'><button class="btn-success">Add task</button></a>
+                </div>
+                <div class="col-sm">
+                    <a href="/accountsTest/logout/" id='logout'><button class="btn-secondary">LogOut</button></a>
+                    <a href="/accountsTest/login/" id='login'><button class="btn-secondary">LogIn</button></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main><br>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        
+    </footer>
+</body>
+</html>

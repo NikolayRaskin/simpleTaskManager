@@ -1,0 +1,21 @@
+{% load static %}
+<html>
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <link href="{% static 'mainPage/css/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+   <div style="display:flex">
+       <div style="margin:auto;">
+            <h1>Logging:</h1>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" class="btn-success">LogIn</button>
+            </form>
+       </div>
+   </div>
+</body>
+</html>

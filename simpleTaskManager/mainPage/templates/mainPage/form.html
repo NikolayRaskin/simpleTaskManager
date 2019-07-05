@@ -1,0 +1,38 @@
+{% extends 'mainPage/mainTemple.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="container">
+       <div style = 'display:flex;'>
+            <div style = 'margin:auto'>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit" class="btn-success">Add task</button>
+                </form>
+                <a href='/'><button class="btn-secondary">Back</button></a>
+            </div>
+       </div>
+    </div>
+    <script>
+        var login = document.getElementById('login');
+        login.style.display = 'none';
+        var logout = document.getElementById('logout');
+        logout.style.display = 'block';
+        var button = document.getElementById('addTask');
+        button.style.display = 'none';
+    </script>
+{% else %}
+        <h1>You are not logged in!</h1>
+        <h3>Please LogIn :)</h3>
+        <script>
+            var login = document.getElementById('login');
+            login.style.display = 'block';
+            var logout = document.getElementById('logout');
+            logout.style.display = 'none';
+            var addTask = document.getElementById('addTask');
+            addTask.style.display = 'none';
+            var username = document.getElementById('username');
+            username.style.display = 'none';
+        </script>
+    {% endif %}
+{% endblock %}

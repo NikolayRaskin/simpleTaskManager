@@ -1,0 +1,96 @@
+{% extends 'mainPage/mainTemple.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        <script>
+            var login = document.getElementById('login');
+            login.style.display = 'none';
+            var logout = document.getElementById('logout');
+            logout.style.display = 'block';
+        </script>
+        <h3 style="color:#3498BF;">Current tasks:</h3>
+        <div class="tasks">
+            {% if taskskQuery %}
+                {% for post in taskskQuery %}
+                    <div class="task-{{post.id}}">
+                        <div class="card" style="width: 18rem;">
+                         <div class="card-header">
+                             <h5 class="card-title">Title: {{post.title}}</h5>
+                         </div>
+                          <div class="card-body">
+                            <div style="height:240px">
+                                <h6 class="card-subtitle mb-2 text-muted">Developer: {{post.developer}}</h6>
+                                <p class="card-text">Project: {{post.project}}</p>
+                                <p class="card-text">Description:<br>{{post.description}}</p>
+                                <p class="card-text">Due Date:<br>{{post.due_date}}</p>
+                                <p class="card-text">Status: <span id="status">{{post.status}}</span></p>
+                            </div><br>
+                            {% if post.status == False %}
+                                <a href="{% url 'compliteTask' post.id %}" class='complited'><button class="btn-success">Complited</button></a><br><br>
+                                <a href="{% url 'editTask' post.id %}" class="deleteTask"><button class="btn-secondary">Edit task</button></a><br><br>
+                            {% endif %}
+                            <a href="#" class="deleteTask" data-id='{{post.id}}'><button class="btn-danger">Delete task</button></a>
+                          
+                          </div>
+                         </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>You don't have any tasks :)</p>
+            {% endif %}
+             <!--check developer or manager-->
+                    {% for post in usersQuery %}
+                        {% if post.user == user %}
+                            {% if post.user_role == 'Developer' %}
+                                <script>
+                                    var addTask = document.getElementById('addTask');
+                                    addTask.style.display = 'none';
+                                    var deleteTask = document.getElementsByClassName('deleteTask');
+                                    for (i=0;i <= deleteTask.length; i++){
+                                        deleteTask[i].style.display = 'none';
+                                    }
+                                </script>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+    {% else %}
+        <h1>You are not logged in!</h1>
+        <h3>Please LogIn :)</h3>
+        <script>
+            var login = document.getElementById('login');
+            login.style.display = 'block';
+            var logout = document.getElementById('logout');
+            logout.style.display = 'none';
+            var addTask = document.getElementById('addTask');
+            addTask.style.display = 'none';
+            var username = document.getElementById('username');
+            username.style.display = 'none';
+        </script>
+    {% endif %}
+</div>
+<script src="{% static 'mainPage/js/jquery.js' %}"></script>
+<script>
+    $(document).ready(function(){
+            $('.deleteTask').on('click', function(e){
+                e.preventDefault() 
+                item_task_id = $(this).attr('data-id')
+                console.log(item_task_id)
+                data = {
+                    item_task_id:item_task_id
+                }
+                $.ajax({
+                    type: "GET",
+                    url: '{% url "deleteTask" %}',
+                    data: data,
+                    success: function(data){
+                        $('.task-' + item_task_id).css('display','none')
+                        if(parseInt(data.task_count) == 0){
+                            $('.tasks').html('<p>You don\'t have any tasks :)</p>')
+                        }
+                    }
+                })
+            })
+    })
+</script>
+{% endblock %}
